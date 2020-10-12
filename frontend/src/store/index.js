@@ -5,13 +5,26 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    correctQuestions: 0,
     questions: null,
+    score: 0,
+    totalNumberOfQuestionsAnswered: 0,
   },
   mutations: {
     incrementCorrectQuestions: (state) => state.correctQuestions++,
     addQuestions(state, payload) {
       state.questions = payload;
+    },
+    updateScore(state) {
+      let numOfCorrect = state.questions.filter(
+        (question) => question.result === 'Correct'
+      ).length;
+
+      state.totalNumberOfQuestionsAnswered = state.questions.filter(
+        (question) => question.result.length
+      );
+
+      state.score = numOfCorrect / state.questions.length;
+      state.questions.length;
     },
     updateQuestion(state, payload) {
       const currentIndex = state.questions.findIndex(function(item) {

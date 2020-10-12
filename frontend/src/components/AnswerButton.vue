@@ -1,7 +1,6 @@
 <template>
   <button class="answer-button">
-    <slot name="numeric" class="numeric"></slot>
-    <slot name="answer" class="answer-text"></slot>
+    <slot></slot>
   </button>
 </template>
 <script>
@@ -10,35 +9,23 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* .answer-button {
-  border-radius: 0.5em 0em 0em 0.5em;
-  background: rgb(2, 82, 2);
-  border: none;
-  color: white;
-  font-size: 1em;
+.answer-button {
+  border: 3px solid #fff;
+  color: #fff;
+  background: none;
   padding: 1em;
-  outline: none;
-  display: flex;
-  align-items: center;
-  padding: 0;
+  font-size: 1em;
+  transition: 0.3s;
+  width: 90%;
 }
 
 .answer-button:hover {
-  outline: 1px solid green;
-  background: green;
-  outline: none;
+  background-color: #ffffff37;
+  cursor: pointer;
 }
 
-.answer-text {
-  padding: 1em;
+button:disabled {
+  opacity: 0.5;
 }
-
-.numeric {
-  border-radius: 0.5em 0em 0em 0.5em;
-  font-size: 1.25em;
-  background-color: gray;
-  padding: 1em;
-} */
 </style>
