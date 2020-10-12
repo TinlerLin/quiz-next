@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    loadingQuestions: false,
     questions: [],
     totalNumberOfQuestionsAnswered: 0,
   },
@@ -37,21 +38,25 @@ export default new Vuex.Store({
     SET_ADD_QUESTIONS(state, questions) {
       state.questions = questions;
     },
+    SET_LOADING(state, payload) {
+      state.loadingQuestions = payload;
+    },
   },
   actions: {
     addQuestions(context) {
+      context.commit('SET_LOADING', true);
       axios
         .get('http://localhost:3000/api/questions/')
         // .then((response) => (this.info = response.data))
         .then((response) => response.data)
         .then((data) => {
+          context.commit('SET_LOADING', false);
           context.commit('SET_ADD_QUESTIONS', data);
         });
     },
     updateQuestion(context, payload) {
       context.commit('UPDATE_QUESTION', payload);
     },
-
     updateScore(context) {
       context.commit('UPDATE_SCORE');
     },
@@ -68,12 +73,13 @@ export default new Vuex.Store({
       let numOfCorrect = state.questions.filter(
         (question) => question.result === 'Correct'
       ).length;
-
       state.totalNumberOfQuestionsAnswered = state.questions.filter(
         (question) => question.result.length
       );
-
       return numOfCorrect / state.questions.length;
+    },
+    getQuestion(state) {
+      return state.questions;
     },
   },
   modules: {},

@@ -1,6 +1,9 @@
 <template>
   <div class="home">
-    <div class="home-container">
+    <div
+      class="home-container"
+      v-if="this.$store.state.loadingQuestions === false"
+    >
       <div
         class="question-container"
         v-for="question in this.$store.state.questions"
@@ -26,10 +29,16 @@
             </AnswerButton>
           </div>
         </div>
-        <div class="result">
-          {{ question.result }}
+        <div class="result" v-if="question.result">
+          <div class="result-text">
+            {{ question.result }}
+          </div>
         </div>
+        <div class="divider"></div>
       </div>
+    </div>
+    <div v-else>
+      <h1>Loading Questions</h1>
     </div>
   </div>
 </template>
@@ -47,42 +56,47 @@ export default {
       info: null,
       check: null,
       questionResult: null,
-      cardi: require('../assets/CardiB.mp3'),
+      cardi: require(`../assets/CardiB.mp3`),
     };
   },
   components: {
     AnswerButton,
   },
   mounted() {
-    store.dispatch('addQuestions');
+    store.dispatch(`addQuestions`);
+  },
+  computed: {
+    questions() {
+      return store.getters.getQuestions;
+    },
   },
   methods: {
     getQuestionAnswer(e) {
-      let questionId = e.target.getAttribute('data-question-id');
-      let answerId = e.target.getAttribute('data-answer-id');
+      let questionId = e.target.getAttribute(`data-question-id`);
+      let answerId = e.target.getAttribute(`data-answer-id`);
       let $this = this;
       axios
-        .put('http://localhost:3000/api/check-answer', {
+        .put(`http://localhost:3000/api/check-answer`, {
           questionId: questionId,
           answerId: answerId,
         })
         .then(function(response) {
           $this.check = response.data;
-          if (response.data.result === 'Incorrect') {
-            store.dispatch('updateQuestion', {
+          if (response.data.result === `Incorrect`) {
+            store.dispatch(`updateQuestion`, {
               questionId: Number(questionId),
               answerId: answerId,
-              result: 'Incorrect',
+              result: `Incorrect`,
             });
             $this.playCardi();
           } else {
-            store.dispatch('updateQuestion', {
+            store.dispatch(`updateQuestion`, {
               questionId: Number(questionId),
               answerId: answerId,
-              result: 'Correct',
+              result: `Correct`,
             });
           }
-          store.dispatch('updateScore');
+          store.dispatch(`updateScore`);
         });
     },
     playCardi() {
@@ -93,30 +107,10 @@ export default {
 };
 </script>
 <style scoped>
-.home {
-  background: linear-gradient(
-    0deg,
-    rgba(0, 141, 255, 1) 0%,
-    rgba(0, 168, 255, 1) 100%
-  );
-  background-repeat: no-repeat;
-  /* background-attachment: fixed; */
-}
 h2 {
   padding-bottom: 1em;
   font-size: 2em;
 }
-
-.incorrect {
-  transition: 0.3s;
-  opacity: 0.5;
-}
-
-.home-container {
-  max-width: 1000px;
-  margin: auto;
-}
-
 .answer {
   cursor: pointer;
   flex-grow: 1;
@@ -128,16 +122,8 @@ h2 {
   display: flex;
   justify-content: space-evenly;
   padding-bottom: 2em;
-  width: 80%;
   margin: auto;
-
-  /* align-content: space-between; */
 }
-
-.question-container {
-  padding-bottom: 8em;
-}
-
 .Correct {
   font-size: 1em;
   color: white;
@@ -145,23 +131,66 @@ h2 {
   transition: 0.5s;
   opacity: 1 !important;
 }
-
 .Correct:hover {
   background-color: rgba(41, 137, 41, 0.498);
 }
-
+.divider {
+  border-bottom: 2px solid white;
+  width: 80%;
+  opacity: 0.3;
+  margin: auto;
+  padding-bottom: 4em;
+}
+.incorrect {
+  transition: 0.3s;
+  opacity: 0.5;
+}
 .Incorrect {
   background-color: rgba(200, 25, 25, 0.532);
   opacity: 1 !important;
 }
-
 .Incorrect:hover {
   background-color: rgba(200, 25, 25, 0.532);
 }
-
+.home {
+  background: linear-gradient(180deg, #102378 0%, #1630a4 100%);
+  background-repeat: no-repeat;
+  padding-top: 4em;
+  padding-bottom: 6em;
+  /* background-attachment: fixed; */
+}
+.home-container {
+  max-width: 1000px;
+  margin: auto;
+}
+.question-container:last-child {
+  margin-bottom: 0;
+}
+.question-container {
+  margin: auto;
+  width: 90%;
+  /* border-bottom: 2px solid white; */
+  margin-bottom: 15em;
+}
 .result {
   font-size: 2em;
   transition: 1s;
   opacity: 1;
+  position: relative;
+}
+.result-text {
+  position: absolute;
+  left: 44%;
+}
+@media only screen and (max-width: 600px) {
+  .answers-container {
+    flex-direction: column;
+  }
+  .answer {
+    padding-bottom: 1em;
+  }
+  .result-text {
+    left: 35%;
+  }
 }
 </style>

@@ -5,7 +5,9 @@
         <div class="letter-grade">
           {{ letterGrade.grade }}
         </div>
-        <div class="percent">({{ letterGrade.percent }}%)</div>
+        <div class="percent">
+          ({{ letterGrade.percent.toString().replace(/\.[0-9]*/g, '') }}%)
+        </div>
       </div>
       <div>
         <img class="meme-image" :src="letterGrade.meme" alt="" />
@@ -49,19 +51,19 @@ export default {
           meme: require('../assets/rockMeme.png'),
           percent: currentTotalScore,
         };
-      if (currentTotalScore >= 80 && this.totalScore < 90)
+      if (currentTotalScore >= 80 && currentTotalScore < 90)
         return {
           grade: 'B',
           meme: require('../assets/kidsMeme.jpg'),
           percent: currentTotalScore,
         };
-      if (currentTotalScore >= 70 && this.totalScore < 80)
+      if (currentTotalScore >= 70 && currentTotalScore < 80)
         return {
           grade: 'C',
           meme: require('../assets/catsMeme.jpg'),
           percent: currentTotalScore,
         };
-      if (currentTotalScore >= 60 && this.totalScore < 70)
+      if (currentTotalScore >= 60 && currentTotalScore < 70)
         return {
           grade: 'D',
           meme: require('../assets/horsemenMeme.jpg'),
@@ -84,26 +86,14 @@ export default {
 </script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Kalam&display=swap');
-
 #score {
-  background: linear-gradient(
-    180deg,
-    rgba(0, 141, 255, 1) 0%,
-    rgb(7, 117, 207) 100%
-  );
-
+  background-color: #1630a4;
   background-repeat: no-repeat;
   width: 100%;
   margin: auto;
+  padding-top: 4em;
   padding-bottom: 8em;
 }
-
-.meme-image {
-  width: 100%;
-  -webkit-box-shadow: 5px 5px 0px 1px #0c0c0c;
-  box-shadow: 5px 5px 0px 1px #0c0c0c;
-}
-
 .grade-container {
   font-family: 'Kalam', cursive;
   /* color: rgb(255, 44, 44); */
@@ -119,7 +109,6 @@ export default {
   -webkit-box-shadow: 5px 5px 0px 1px #0c0c0c;
   box-shadow: 3px 3px 0px 1px #0c0c0c;
 }
-
 .grade-container div {
   flex-grow: 1;
   flex-shrink: 1;
@@ -127,12 +116,23 @@ export default {
 }
 .letter-grade {
   font-family: 'Kalam', cursive;
-  font-size: 5em;
+  font-size: 6em;
   line-height: 100%;
   text-shadow: 5px 5px #0c0c0c;
+}
+.meme-image {
+  width: 100%;
+  -webkit-box-shadow: 5px 5px 0px 1px #0c0c0c;
+  box-shadow: 5px 5px 0px 1px #0c0c0c;
 }
 .percent {
   font-size: 0.5em;
   text-shadow: 2px 2px #0c0c0c;
+}
+
+@media only screen and (max-width: 600px) {
+  .grade-container {
+    flex-direction: column;
+  }
 }
 </style>

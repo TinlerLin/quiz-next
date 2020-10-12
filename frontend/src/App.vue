@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <HeroHeader /> -->
+    <HeroHeader />
     <Home />
     <Score />
   </div>
@@ -8,12 +8,12 @@
 <script>
 import Home from './components/Home';
 import Score from './components/Score';
-// import HeroHeader from './components/HeroHeader';
+import HeroHeader from './components/HeroHeader';
 export default {
   components: {
     Home,
     Score,
-    // HeroHeader,
+    HeroHeader,
   },
 };
 </script>

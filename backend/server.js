@@ -4,7 +4,7 @@ const port = 3000;
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const url = ``;
+const url = '';
 
 const answer = require('./routes/api/answer');
 const question = require('./routes/api/question');
@@ -29,12 +29,12 @@ mongoose
     console.log('Connected to database ');
   })
   .catch((err) => {
-    console.error(`Error connecting to the database. \n${err}`);
+    console.error('Error connecting to the database. \n${err}');
   });
 
 app.use('/api/questions', question);
 app.use('/api/check-answer', answer);
 
 app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
+  console.log('Listening at http://localhost:${port}');
 });
