@@ -1,35 +1,36 @@
 <template>
   <div class="home">
-    <div
-      class="question-container"
-      v-for="question in this.$store.state.questions"
-      :key="question.id"
-    >
-      <h2 class="question" :data-id="question.questionId">
-        {{ question.question }}
-      </h2>
-      <div class="answers-container">
-        <div
-          class="answer"
-          v-for="answer in question.answers"
-          :key="answer.id"
-          @click="getQuestionAnswer($event)"
-        >
-          <AnswerButton
-            :data-answer-id="answer.answerId"
-            :data-question-id="question.questionId"
-            :disabled="question.result.length > 0"
-            :class="answer.result != null ? answer.result : null"
+    <div class="home-container">
+      <div
+        class="question-container"
+        v-for="question in this.$store.state.questions"
+        :key="question.id"
+      >
+        <h2 class="question" :data-id="question.questionId">
+          {{ question.question }}
+        </h2>
+        <div class="answers-container">
+          <div
+            class="answer"
+            v-for="answer in question.answers"
+            :key="answer.id"
+            @click="getQuestionAnswer($event)"
           >
-            <slot>{{ answer.answer }} </slot>
-          </AnswerButton>
+            <AnswerButton
+              :data-answer-id="answer.answerId"
+              :data-question-id="question.questionId"
+              :disabled="question.result.length > 0"
+              :class="answer.result != null ? answer.result : null"
+            >
+              <slot>{{ answer.answer }} </slot>
+            </AnswerButton>
+          </div>
+        </div>
+        <div class="result">
+          {{ question.result }}
         </div>
       </div>
-      <div class="result">
-        {{ question.result }}
-      </div>
     </div>
-    <Score />
   </div>
 </template>
 
@@ -39,7 +40,6 @@
 import axios from 'axios';
 import store from '../store/index';
 import AnswerButton from '../components/AnswerButton';
-import Score from '../components/Score';
 
 export default {
   data() {
@@ -52,21 +52,9 @@ export default {
   },
   components: {
     AnswerButton,
-    Score,
   },
   mounted() {
-    axios
-      .get('http://localhost:3000/api/questions/')
-      // .then((response) => (this.info = response.data))
-      .then((response) => response.data)
-      .then((data) => {
-        store.commit('addQuestions', data);
-      });
-  },
-  computed: {
-    totalNumberOfQuestions() {
-      return this.$store.state.questions;
-    },
+    store.dispatch('addQuestions');
   },
   methods: {
     getQuestionAnswer(e) {
@@ -81,21 +69,20 @@ export default {
         .then(function(response) {
           $this.check = response.data;
           if (response.data.result === 'Incorrect') {
-            store.commit('updateQuestion', {
+            store.dispatch('updateQuestion', {
               questionId: Number(questionId),
               answerId: answerId,
               result: 'Incorrect',
             });
             $this.playCardi();
           } else {
-            store.commit('updateQuestion', {
+            store.dispatch('updateQuestion', {
               questionId: Number(questionId),
               answerId: answerId,
               result: 'Correct',
             });
           }
-
-          store.commit('updateScore');
+          store.dispatch('updateScore');
         });
     },
     playCardi() {
@@ -106,6 +93,15 @@ export default {
 };
 </script>
 <style scoped>
+.home {
+  background: linear-gradient(
+    0deg,
+    rgba(0, 141, 255, 1) 0%,
+    rgba(0, 168, 255, 1) 100%
+  );
+  background-repeat: no-repeat;
+  /* background-attachment: fixed; */
+}
 h2 {
   padding-bottom: 1em;
   font-size: 2em;
@@ -116,10 +112,9 @@ h2 {
   opacity: 0.5;
 }
 
-.home {
+.home-container {
   max-width: 1000px;
   margin: auto;
-  z-index: 999;
 }
 
 .answer {

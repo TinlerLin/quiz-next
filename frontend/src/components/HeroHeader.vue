@@ -1,7 +1,7 @@
 <template>
   <div id="hero-header" class="wave">
-    <!-- <img class="cardi-hero" src="../assets/CardiBHero.png" alt="" /> -->
-    <h1>How well do you know <span class="extra-bold">Cardi B?</span></h1>
+    <img class="cardi-hero" src="../assets/CardiBHero.png" alt="" />
+    <h1>Cardi B Quiz</h1>
   </div>
 </template>
 <script>
