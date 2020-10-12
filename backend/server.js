@@ -43,6 +43,3 @@ mongoose
 
 app.use('/api/questions', question);
 app.use('/api/check-answer', answer);
-
-
-
