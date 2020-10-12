@@ -3,14 +3,14 @@
     <div class="grade-container">
       <div>
         <div class="letter-grade">
-          {{ letterGrade.grade }}
+          {{ score.grade }}
         </div>
         <div class="percent">
-          ({{ letterGrade.percent.toString().replace(/\.[0-9]*/g, '') }}%)
+          ({{ score.percent.toString().replace(/\.[0-9]*/g, '') }}%)
         </div>
       </div>
       <div>
-        <img class="meme-image" :src="letterGrade.meme" alt="" />
+        <img class="meme-image" :src="score.meme" alt="" />
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@ export default {
       return false;
     },
 
-    letterGrade() {
+    score() {
       let grade,
         meme,
         currentTotalScore = store.getters.getCurrentScore * 100;
@@ -96,7 +96,6 @@ export default {
 }
 .grade-container {
   font-family: 'Kalam', cursive;
-  /* color: rgb(255, 44, 44); */
   color: white;
   font-size: 3em;
   border: 5px solid white;

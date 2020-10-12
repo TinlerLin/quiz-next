@@ -44,8 +44,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
 import axios from 'axios';
 import store from '../store/index';
 import AnswerButton from '../components/AnswerButton';
@@ -53,9 +51,6 @@ import AnswerButton from '../components/AnswerButton';
 export default {
   data() {
     return {
-      info: null,
-      check: null,
-      questionResult: null,
       cardi: require(`../assets/CardiB.mp3`),
     };
   },
@@ -100,7 +95,7 @@ export default {
         });
     },
     playCardi() {
-      var audio = new Audio(this.cardi); // path to file
+      var audio = new Audio(this.cardi);
       audio.play();
     },
   },
@@ -157,7 +152,6 @@ h2 {
   background-repeat: no-repeat;
   padding-top: 4em;
   padding-bottom: 6em;
-  /* background-attachment: fixed; */
 }
 .home-container {
   max-width: 1000px;
@@ -169,7 +163,6 @@ h2 {
 .question-container {
   margin: auto;
   width: 90%;
-  /* border-bottom: 2px solid white; */
   margin-bottom: 15em;
 }
 .result {

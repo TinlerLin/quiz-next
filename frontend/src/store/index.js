@@ -21,7 +21,6 @@ export default new Vuex.Store({
       );
 
       state.score = numOfCorrect / state.questions.length;
-      state.questions.length;
     },
     UPDATE_QUESTION(state, payload) {
       const currentIndex = state.questions.findIndex(function(item) {
@@ -47,7 +46,6 @@ export default new Vuex.Store({
       context.commit('SET_LOADING', true);
       axios
         .get('http://localhost:3000/api/questions/')
-        // .then((response) => (this.info = response.data))
         .then((response) => response.data)
         .then((data) => {
           context.commit('SET_LOADING', false);

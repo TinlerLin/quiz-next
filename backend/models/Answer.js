@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const AnswerSchema = new Schema({
@@ -9,6 +9,5 @@ const AnswerSchema = new Schema({
     type: String,
   },
 });
-
 
 module.exports = Answer = mongoose.model('Answer', AnswerSchema);
