@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    questions: null,
+    questions: [],
     totalNumberOfQuestionsAnswered: 0,
   },
   mutations: {
@@ -23,8 +23,6 @@ export default new Vuex.Store({
       state.questions.length;
     },
     UPDATE_QUESTION(state, payload) {
-      console.log(state);
-      console.log(payload);
       const currentIndex = state.questions.findIndex(function(item) {
         return item.questionId === payload.questionId;
       });
@@ -62,6 +60,9 @@ export default new Vuex.Store({
     getNumberOfAnsweredQuestions(state) {
       return state.questions.filter((question) => question.result.length > 0)
         .length;
+    },
+    getNumberOfQuestions(state) {
+      return state.questions.length;
     },
     getCurrentScore(state) {
       let numOfCorrect = state.questions.filter(

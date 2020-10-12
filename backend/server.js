@@ -14,17 +14,8 @@ app.use(
     extended: true,
   })
 );
-
 app.use(bodyParser.json());
-
 app.use(cors());
-app.get('/', (req, res) => {
-  res.send('Hello Quiz World');
-});
-
-app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
-});
 
 const connectionParams = {
   useNewUrlParser: true,
@@ -43,3 +34,7 @@ mongoose
 
 app.use('/api/questions', question);
 app.use('/api/check-answer', answer);
+
+app.listen(port, () => {
+  console.log(`Listening at http://localhost:${port}`);
+});

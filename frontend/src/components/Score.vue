@@ -1,5 +1,5 @@
 <template>
-  <div class="score">
+  <div v-if="completedQuiz" id="score">
     <div class="grade-container">
       <div>
         <div class="letter-grade">
@@ -21,10 +21,24 @@ export default {
   data() {
     return {};
   },
+  updated() {
+    if (this.completedQuiz) {
+      var el = document.getElementById('score');
+      el.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  },
   computed: {
-    numOfQuestionAnswered() {
-      return store.getters.getNumberOfAnsweredQuestions;
+    completedQuiz() {
+      if (
+        store.getters.getNumberOfAnsweredQuestions ===
+          store.getters.getNumberOfQuestions &&
+        store.getters.getNumberOfQuestions > 0
+      ) {
+        return true;
+      }
+      return false;
     },
+
     letterGrade() {
       let grade,
         meme,
@@ -71,7 +85,7 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Kalam&display=swap');
 
-.score {
+#score {
   background: linear-gradient(
     180deg,
     rgba(0, 141, 255, 1) 0%,
@@ -116,7 +130,6 @@ export default {
   font-size: 5em;
   line-height: 100%;
   text-shadow: 5px 5px #0c0c0c;
-  /* box-shadow: 5px 5px 0px 1px #0c0c0c; */
 }
 .percent {
   font-size: 0.5em;
